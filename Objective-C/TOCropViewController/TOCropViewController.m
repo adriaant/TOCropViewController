@@ -291,42 +291,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 44.0f;
 
 - (CGRect)frameForCropViewWithVerticalLayout:(BOOL)verticalLayout
 {
-    //On an iPad, if being presented in a modal view controller by a UINavigationController,
-    //at the time we need it, the size of our view will be incorrect.
-    //If this is the case, derive our view size from our parent view controller instead
-    UIView *view = nil;
-    if (self.parentViewController == nil) {
-        view = self.view;
-    }
-    else {
-        view = self.parentViewController.view;
-    }
-
-    UIEdgeInsets insets = self.statusBarSafeInsets;
-
-    CGRect bounds = view.bounds;
-    CGRect frame = CGRectZero;
-
-    // Horizontal layout (eg landscape)
-    if (!verticalLayout) {
-        frame.origin.x = kTOCropViewControllerToolbarHeight + insets.left;
-        frame.size.width = CGRectGetWidth(bounds) - frame.origin.x;
-		frame.size.height = CGRectGetHeight(bounds);
-    }
-    else { // Vertical layout
-        frame.size.height = CGRectGetHeight(bounds);
-        frame.size.width = CGRectGetWidth(bounds);
-
-        // Set Y and adjust for height
-        if (self.toolbarPosition == TOCropViewControllerToolbarPositionBottom) {
-            frame.size.height -= (insets.bottom + kTOCropViewControllerToolbarHeight);
-        } else {
-			frame.origin.y = kTOCropViewControllerToolbarHeight + insets.top;
-            frame.size.height -= frame.origin.y;
-        }
-    }
-    
-    return frame;
+    return self.view.bounds;
 }
 
 - (CGRect)frameForTitleLabelWithSize:(CGSize)size verticalLayout:(BOOL)verticalLayout
